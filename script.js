@@ -2,25 +2,21 @@
 // generate timeblocks for all hours of a day
 // timeblocks can be edited to add text information
 // save button next to timeblock saves to local storage
-var today = 
-var currentTime =
+var now = moment();
+console.log(now);
 
-var timeBlockContainer = getElementById('time-container');
+var nowContainer = document.getElementById("current-day");
+var nowDisplay = moment().format("[Today is] dddd, MMMM Do YYYY");
+nowContainer.innerHTML = nowDisplay;
 
+var timeBlockContainer = getElementById("timeblock-container");
 
-var createTimeBlock = function() {
+var createTimeBlock = function () {
+    const timeBlock = document.createElement("div");
+    timeBlock.setattribute("class", "textarea");
 
-}
+};
 
-var timeTask = 
-
-var timeBlockFormHandler() {
-
-}
-
-var saveTimeBlock = function() {
-
-}
 
 // generate timeblock function (start with time, check against rules, fill with info from localstorage or empty, append to DOM)
 // loop through all time blocks and add class based on time
