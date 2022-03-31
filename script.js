@@ -1,23 +1,34 @@
-// display current day at the top
-// generate timeblocks for all hours of a day
-// timeblocks can be edited to add text information
-// save button next to timeblock saves to local storage
-var now = moment();
-console.log(now);
+// time display at top
+// var now = moment();
+// console.log(now);
 
 var nowContainer = document.getElementById("current-day");
 var nowDisplay = moment().format("[Today is] dddd, MMMM Do YYYY");
 nowContainer.innerHTML = nowDisplay;
 
-var timeBlockContainer = getElementById("timeblock-container");
+// time blocks
+
+var timeBlockContainer = document.getElementById("timeblock-container");
 
 var createTimeBlock = function () {
-    const timeBlock = document.createElement("div");
-    timeBlock.setattribute("class", "textarea");
-
+  var timeBlock = document.createElement("div");
+  timeBlock.setAttribute("class", "row time-block");
+  timeBlockContainer.appendChild(timeBlock);
+  for (var i = 0; i < 13; i++) {
+    var hourEl = document.createElement("div");
+    hourEl.setAttribute("class", "hour col-2");
+    // hourEl.textContent = ;
+    var textEl = document.createElement("textarea");
+    textEl.setAttribute("class", "present col-6");
+    var saveBtn = document.createElement("button");
+    saveBtn.setAttribute("class", "saveBtn col-2");
+  }
+  timeBlock.appendChild(hourEl);
+  timeBlock.appendChild(textEl);
+  timeBlock.appendChild(saveBtn);
 };
 
+// // var saveTask = function() {
+// //     var taskInput = document.querySelector("textarea").value;
 
-// generate timeblock function (start with time, check against rules, fill with info from localstorage or empty, append to DOM)
-// loop through all time blocks and add class based on time
-// form input for each time block, submit saves
+// }
