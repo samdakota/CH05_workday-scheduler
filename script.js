@@ -1,74 +1,59 @@
-// time display at top
-var now = moment().hours();
-console.log(now);
+var today = moment();
+$("#currentDay").text(today.format("dddd, MMMM Do"));
 
-// var nowContainer = document.getElementById("current-day");
-// var nowDisplay = moment().format("[Today is] dddd, MMMM Do YYYY");
-// nowContainer.innerHTML = nowDisplay;
+var auditTasks = function () {
+  var currentHour = moment().hour();
+  $(".task-info").each(function() {
+    var divHour = $(this).attr("id");
 
-// time blocks
-var now = 13;
-var time = "";
-var startTime = 8;
-var endTime = 20;
-
-var timeBlockContainer = document.getElementById("timeblock-container");
-var saveTask = document.getElementById("save").click();
-
-var style = "";
-var setBlockColor = function () {
-  if (time < now) {
-    style = "past col-6";
-  } else if (time == now) {
-    style = "present col-6";
-  } else {
-    style = "future col-6";
-  }
+    if (currentHour === divHour) {
+      $(this).addClass('present');
+    } else if (currentHour < divHour) {
+      $(this).addClass('past');
+    } else {
+      $(this).addClass('future');
+    }
+  });
 };
 
-// var createTimeBlock = function () {
-//   var timeBlock = document.createElement("div");
-//   timeBlock.setAttribute("class", "row time-block");
-//   timeBlockContainer.appendChild(timeBlock);
-//   var hourEl = document.createElement("div");
-//   hourEl.setAttribute("class", "hour col-2");
-//   hourEl.textContent = time;
-//   var textEl = document.createElement("textarea");
-//   setBlockColor();
-//   textEl.setAttribute("class", style);
-//   var saveBtn = document.createElement("button");
-//   saveBtn.setAttribute("class", "saveBtn col-2");
-//   saveBtn.textContent = "Save";
-//   timeBlock.appendChild(hourEl);
-//   timeBlock.appendChild(textEl);
-//   timeBlock.appendChild(saveBtn);
-// };
+var loadTasks = function(){
+  var taskStorage = localStorage.getItem("tasks");
 
-var createTimeBlockList = function () {
-  for (var i = 0; i <= endTime - startTime; i++) {
-    var timeBlock = document.createElement("div");
-    timeBlock.setAttribute("class", "row time-block");
-    timeBlockContainer.appendChild(timeBlock);
-    var hourEl = document.createElement("div");
-    hourEl.setAttribute("class", "hour col-2");
-    hourEl.textContent = i + 8;
-    var textEl = document.createElement("textarea");
-    setBlockColor();
-    textEl.setAttribute("class", style);
-    var saveBtn = document.createElement("button");
-    saveBtn.setAttribute("class", "saveBtn col-2");
-    saveBtn.textContent = "Save";
-    timeBlock.appendChild(hourEl);
-    timeBlock.appendChild(textEl);
-    timeBlock.appendChild(saveBtn);
-    // createTimeBlock();
+  if (!taskStorage) {
+      var tasks = {
+          "9": "",
+          "10": "",
+          "11": "",
+          "12": "",
+          "13": "",
+          "14": "",
+          "15": "",
+          "16": "",
+          "17": ""
+      };
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      return;
   }
+
+  $(".task-info").each(function(){
+      timeDiv = $(this).attr("id");
+      var taskStorage = JSON.parse(localStorage.getItem("tasks"));
+      var timeVal = taskStorage[timeDiv];
+      $(this).find(".task").val(timeVal);
+  });
 };
-createTimeBlockList();
 
-var saveTimeBlock = function () {};
+$(".saveBtn").click(function(event){
+  event.preventDefault();
+  var inputValue = $(this).siblings(".task").val();
+  var time = $(this).parent().attr("id");
+  localStorage.setItem(time, inputValue);
 
-// // var saveTask = function() {
-// //     var taskInput = document.querySelector("textarea").value;
+  var taskStorage = JSON.parse(localStorage.getItem("tasks"));
+  var updated = { ...taskStorage, [time]: inputValue};
+  
+  localStorage.setItem("tasks", JSON.stringify(updated));
+});
 
-// }
+loadTasks();
+auditTasks();
